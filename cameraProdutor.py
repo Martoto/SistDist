@@ -17,7 +17,7 @@ while (1):
     message = "Imagem"+str(tempo.hour)+"h" + \
         str(tempo.minute)+"m"+str(tempo.second)+"s"
     channel.basic_publish(exchange='Cloudin',
-                          routing_key='topic_camera', body=message)
+                          routing_key='topic.camera', body=message)
     print(" cameraProdutor mandou a seguinte mensagem: %r" % message)
     time.sleep(1)
 

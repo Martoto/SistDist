@@ -22,7 +22,7 @@ while (1):
         message = "Direita"
 
     channel.basic_publish(exchange='Cloudin',
-                          routing_key='topic_comandos', body=message)
+                          routing_key='topic.comandos', body=message)
     print(" comandosProdutor mandou a seguinte mensagem: %r" % message)
     time.sleep(1)
 

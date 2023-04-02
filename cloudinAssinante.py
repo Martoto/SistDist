@@ -11,7 +11,7 @@ result = channel.queue_declare(queue='', exclusive=True)
 queue_name = result.method.queue
 
 channel.queue_bind(exchange='Cloudin', queue=queue_name,
-                   routing_key='topic_comandos')
+                   routing_key='topic.comandos')
 
 print(' CLOUDIN está ouvindo. Para sair CTRL-C')
 

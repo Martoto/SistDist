@@ -8,16 +8,18 @@ connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare(exchange='imagens', exchange_type='fanout')
 
-# message = ' '.join(sys.argv[1:]) or "info: Hello World!"
+channel.exchange_declare(exchange='Cloudin', exchange_type='topic')
 
+i = 0
 while (1):
     tempo = datetime.now()
     message = "Imagem"+str(tempo.hour)+"h" + \
         str(tempo.minute)+"m"+str(tempo.second)+"s"
-    channel.basic_publish(exchange='imagens', routing_key='', body=message)
-    print(" cameraProdutor mandou a seguinte: %r" % message)
+    channel.basic_publish(exchange='Cloudin',
+                          routing_key='topic_camera', body=message)
+    print(" cameraProdutor mandou a seguinte mensagem: %r" % message)
     time.sleep(1)
+
 
 connection.close()

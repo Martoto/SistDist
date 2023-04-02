@@ -6,7 +6,9 @@ connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare(exchange='comandos', exchange_type='fanout')
+
+channel.exchange_declare(exchange='Cloudin', exchange_type='topic')
+
 i = 0
 while (1):
     i = i+1
@@ -19,7 +21,8 @@ while (1):
     if (i % 4 == 3):
         message = "Direita"
 
-    channel.basic_publish(exchange='comandos', routing_key='', body=message)
+    channel.basic_publish(exchange='Cloudin',
+                          routing_key='topic_comandos', body=message)
     print(" comandosProdutor mandou a seguinte mensagem: %r" % message)
     time.sleep(1)
 

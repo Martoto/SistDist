@@ -5,14 +5,15 @@ connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare(exchange='imagens', exchange_type='fanout')
+channel.exchange_declare(exchange='Cloudin', exchange_type='topic')
 
 result = channel.queue_declare(queue='', exclusive=True)
 queue_name = result.method.queue
 
-channel.queue_bind(exchange='imagens', queue=queue_name)
+channel.queue_bind(exchange='Cloudin', queue=queue_name,
+                   routing_key='topic_camera')
 
-print(' Visualização está ouvindo. Para sair CTRL-C')
+print(' CLOUDIN está ouvindo. Para sair CTRL-C')
 
 
 def callback(ch, method, properties, body):

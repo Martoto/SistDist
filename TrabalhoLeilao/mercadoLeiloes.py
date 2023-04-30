@@ -14,6 +14,7 @@ from Crypto.Signature import pkcs1_15
 
 class mercadoLeiloes(object):
     __listaClientes = {}
+    __listaKeys = {}
     __listaLeiloes = {}
 
     def __init__(self):
@@ -29,8 +30,8 @@ class mercadoLeiloes(object):
                       self.__listaLeiloes[leilao].getNomeProduto())
 # nomeProduto, descriçãoProduto, preçoBase, limiteTempo, limiteDia, clienteInstancia.uriCliente, clienteInstancia.nome
 
-    def decrypt(self, msg, key):
-        hash = SHA256.new(msg)
+    def decrypt(self, msg, key, signature):
+        hash = SHA256.new(msg.encode('utf-8'))
         try:
             pkcs1_15.new(key).verify(hash, signature)
             return True
@@ -38,7 +39,16 @@ class mercadoLeiloes(object):
             return False
 
     @Pyro5.server.expose
-    def criarLeilao(self, nomeProduto, descriçãoProduto, preçoBase, limiteTempo, uri, nome):
+    def criarLeilao(self, 
+                    nomeProduto, 
+                    descriçãoProduto, 
+                    preçoBase, 
+                    limiteTempo, 
+                    uri, 
+                    nome,
+                    signature):
+        if not self.decrypt(uri, self.__listaKeys[nome], signature):
+            raise ValueError('Assinatura inválida')
         if nomeProduto in self.__listaLeiloes:
             raise ValueError('Já existe leilão com mesmo nome')
         self.__listaLeiloes[nomeProduto] = leilao(
@@ -58,7 +68,16 @@ class mercadoLeiloes(object):
         return listaLeiloesRetorno
 
     @Pyro5.server.expose
-    def darLance(self, valorLance, nomeProduto, uri, nome):
+    def darLance(self, 
+                 valorLance, 
+                 nomeProduto, 
+                 uri, 
+                 nome,
+                 signature):
+        
+        if not self.decrypt(uri, self.__listaKeys[nome], signature):
+            raise ValueError('Assinatura inválida')
+        
         print("Cliente " + nome + " tentou dar lance de " +
               valorLance + " em " + nomeProduto)
         for leilao in self.__listaLeiloes.keys():
@@ -79,4 +98,5 @@ class mercadoLeiloes(object):
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
         print("Registrou cliente" + nome)
-        self.__listaClientes[nome] = uriCliente, pubkey
+        self.__listaClientes[nome] = uriCliente
+        self.__listaKeys[nome] = pubkey

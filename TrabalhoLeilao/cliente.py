@@ -25,10 +25,9 @@ class cliente():
         self.uriCliente = uriCliente
 
     def encrypt(self, msg):
-        hash = msg.encode('utf-8')
-        
+        hash = SHA256.new(msg.encode('utf-8'))
         signature = pkcs1_15.new(self.key).sign(hash)
-        return signature    
+        return signature  
 
 
 
@@ -67,12 +66,13 @@ if __name__ == '__main__':
             preçoBase = input("Qual o preço mínimo ?")
             limiteTempo = int(input(
                 "Em quantos segundos deve expirar?"))
-            servidorMercadoLeiloes.criarLeilao(clienteInstancia.encrypt(nomeProduto), 
-                                               clienteInstancia.encrypt(descriçãoProduto), 
-                                               clienteInstancia.encrypt(preçoBase), 
-                                               clienteInstancia.encrypt(limiteTempo), 
-                                               clienteInstancia.encrypt(clienteInstancia.uriCliente), 
-                                               clienteInstancia.encrypt(clienteInstancia.nome))
+            servidorMercadoLeiloes.criarLeilao(nomeProduto, 
+                                               descriçãoProduto, 
+                                               preçoBase, 
+                                               limiteTempo, 
+                                               clienteInstancia.uriCliente, 
+                                               clienteInstancia.nome,
+                                               clienteInstancia.encrypt(clienteInstancia.uriCliente))
                 
         if opcao == 'Listar':
             lista = servidorMercadoLeiloes.listarLeiloes()
@@ -81,10 +81,11 @@ if __name__ == '__main__':
         if opcao == 'Lance':
             nomeProduto = input("Qual o nome do produto em leilão?")
             valorLance = input("Qual o valor do seu lance?")
-            resultadoLance = servidorMercadoLeiloes.darLance(clienteInstancia.encrypt(valorLance),
-                                                             clienteInstancia.encrypt(nomeProduto),
-                                                             clienteInstancia.encrypt(clienteInstancia.uriCliente), 
-                                                             clienteInstancia.encrypt(clienteInstancia.nome))
+            resultadoLance = servidorMercadoLeiloes.darLance(valorLance,
+                                                             nomeProduto,
+                                                             clienteInstancia.uriCliente, 
+                                                             clienteInstancia.nome,
+                                                             clienteInstancia.encrypt(clienteInstancia.uriCliente))
             if (resultadoLance == 1):
                 print("Lance Aceito")
             if (resultadoLance == 0):

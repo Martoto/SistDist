@@ -1,6 +1,18 @@
 import PySimpleGUI as sg
 
 # Layout
+def telaLogin():
+    sg.theme('DarkAmber')
+    layout = [
+        [sg.Text('Login', size=(10, 1), justification='center', font=("Helvetica", 25))],
+        [sg.Text('Usuário', size=(10, 1)), sg.Input(size=(20, 1), key='usuario')],
+        [sg.Button('Entrar', size=(20, 2))],
+        [sg.Button('Sair', size=(20, 2))]
+    ]
+    # Janela
+    return sg.Window('Login', layout=layout, finalize=True)
+
+
 def telaMenu():
     sg.theme('DarkAmber')
     layout = [

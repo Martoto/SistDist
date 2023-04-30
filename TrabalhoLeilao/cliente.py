@@ -6,15 +6,17 @@ import os
 from Crypto.PublicKey import RSA
 from Crypto.Signature import pkcs1_15
 from Crypto.Hash import SHA256
-
+from Telas.menu import telaLogin, telaMenu, telaCadastrar, telaListar, telaLance
 
 class cliente():
     nome = ""
     uriCliente = ""
 
     def __init__(self):
-        self.nome = input(
-            "Olá, por favor informe seu nome de registro no servidor:")
+        #abrir tela login
+        event, values = telaLogin().read(close=True)
+        self.nome = values['usuario']
+        print(self.nome)
 
     def pedeCriar(self, uriCliente):
         self.uriCliente = uriCliente

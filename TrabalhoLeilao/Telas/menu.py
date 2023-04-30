@@ -19,6 +19,7 @@ def telaMenu():
         [sg.Text('Menu', size=(10, 1), justification='center', font=("Helvetica", 25))],
         [sg.Button('Cadastrar', size=(20, 2))],
         [sg.Button('Listar', size=(20, 2))],
+        [sg.Button('Lance', size=(20, 2))],
         [sg.Button('Sair', size=(20, 2))]
     ]
     # Janela

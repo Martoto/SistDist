@@ -5,6 +5,9 @@ from leiloes import leilao
 from datetime import datetime
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
+from Crypto.PublicKey import RSA
+from Crypto.Hash import SHA256
+from Crypto.Signature import pkcs1_15
 
 # Mercado de Leilões
 
@@ -25,6 +28,14 @@ class mercadoLeiloes(object):
                 print("Acabou o leilão de " +
                       self.__listaLeiloes[leilao].getNomeProduto())
 # nomeProduto, descriçãoProduto, preçoBase, limiteTempo, limiteDia, clienteInstancia.uriCliente, clienteInstancia.nome
+
+    def decrypt(self, msg, key):
+        hash = SHA256.new(msg)
+        try:
+            pkcs1_15.new(key).verify(hash, signature)
+            return True
+        except (ValueError, TypeError):
+            return False
 
     @Pyro5.server.expose
     def criarLeilao(self, nomeProduto, descriçãoProduto, preçoBase, limiteTempo, uri, nome):
@@ -63,9 +74,9 @@ class mercadoLeiloes(object):
         # só retornar para a pessoa
 
     @Pyro5.server.expose
-    def registrarCliente(self, nome, uriCliente):
+    def registrarCliente(self, nome, uriCliente, pubkey):
         print("Tentou Registrar Cliente " + nome)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
         print("Registrou cliente" + nome)
-        self.__listaClientes[nome] = uriCliente
+        self.__listaClientes[nome] = uriCliente, pubkey

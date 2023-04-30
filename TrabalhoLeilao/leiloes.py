@@ -1,11 +1,12 @@
 from typing import Any
+from time import gmtime, strftime
 
 
 class leilao:
     nomeProduto = ""
     descriçãoProduto = ""
     preçoBase = 0
-    limiteTempo = 9999
+    limiteTempo = 999999
     nomeComprador = ""
     valorAtual = 0
     acabou = 0
@@ -21,27 +22,13 @@ class leilao:
         self.valorAtual = precoBase
         self.uriComitante = uri
 
-    def darLanceLeilao(self, valorLance, nomeComprador, uri):
-        # adicionar uri na lista de interessados
-        print("entrou no append")
-        self.listaInteressados.append(uri)
-        print("passou do append")
-        if valorLance > self.valorAtual:
-            self.nomeComprador = nomeComprador
-            self.valorAtual = valorLance
-            print("aceitou o lance")
-            return 1
-        else:
-            print("rejeitou o lance")
-            return 0
-
     def getNomeProduto(self):
         return self.nomeProduto
 
     def atualizarTempo(self):
-        limiteTempo = limiteTempo-1
-        if limiteTempo <= 0:
-            acabou = 1
+        self.limiteTempo = self.limiteTempo-1
+        if (self.limiteTempo <= 0):
+            self.acabou = 1
         else:
-            acabou = 0
+            self.acabou = 0
         return

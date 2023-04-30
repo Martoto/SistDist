@@ -20,11 +20,21 @@ class cliente():
         self.uriCliente = uriCliente
 
 
+class CallbackHandler(object):
+    @Pyro5.api.expose
+    @Pyro5.api.callback
+    def notificacao(self, acontecimento):
+        print(acontecimento)
+
+
 if __name__ == '__main__':
     clienteInstancia = cliente()
     daemon = Pyro5.api.Daemon()
     uriCliente = daemon.register(clienteInstancia)
     clienteInstancia.pedeCriar(uriCliente)
+    callback = CallbackHandler()
+    daemon.register(callback)
+
     servidorNomes = Pyro5.api.locate_ns()
     uriMercadoLeiloes = servidorNomes.lookup("Mercado de Leiloes")
     servidorMercadoLeiloes = Pyro5.api.Proxy(uriMercadoLeiloes)
@@ -40,12 +50,13 @@ if __name__ == '__main__':
             nomeProduto = input("Qual o nome do produto?")
             descriçãoProduto = input("Qual a descrição do produto?")
             preçoBase = input("Qual o preço mínimo ?")
-            limiteTempo = input("Em quantos segundos deve expirar?")
+            limiteTempo = int(input(
+                "Em quantos segundos deve expirar?"))
             servidorMercadoLeiloes.criarLeilao(
-                nomeProduto, descriçãoProduto, preçoBase, limiteTempo, clienteInstancia.uriCliente)
+                nomeProduto, descriçãoProduto, preçoBase, limiteTempo, clienteInstancia.uriCliente, clienteInstancia.nome)
         if opcao == '2':
             lista = servidorMercadoLeiloes.listarLeiloes()
-            for name in lista.keys():
+            for name in lista:
                 print("  %s " % (name))
         if opcao == '3':
             nomeProduto = input("Qual o nome do produto em leilão?")

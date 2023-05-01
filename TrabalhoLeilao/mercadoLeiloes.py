@@ -28,14 +28,14 @@ class mercadoLeiloes(object):
                 # adicionar para mandar notificação para quem é interessado
                 print("Acabou o leilão de " +
                       self.__listaLeiloes[leilao].getNomeProduto())
-# nomeProduto, descriçãoProduto, preçoBase, limiteTempo, limiteDia, clienteInstancia.uriCliente, clienteInstancia.nome
+                # nomeProduto, descriçãoProduto, preçoBase, limiteTempo, limiteDia, clienteInstancia.uriCliente, clienteInstancia.nome
 
     def decrypt(self, msg, key, signature):
         hash = SHA256.new(msg.encode('utf-8'))
-        key = RSA.import_key(key.encode('utf-8'))
-        print("decrypting " + msg)
+        print(key)
+        imKey = RSA.import_key(key)
         try:
-            pkcs1_15.new(key).verify(hash, signature)
+            pkcs1_15.new(imKey).verify(hash, signature)
             return True
         except (ValueError, TypeError):
             return False
@@ -102,9 +102,8 @@ class mercadoLeiloes(object):
     @Pyro5.server.expose
     def registrarCliente(self, nome, uriCliente, pubkey):
         print("Tentou Registrar Cliente " + nome )
-        print(pubkey)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
-        print("Registrou cliente" + nome)
+        print("Registrou cliente" + nome + " com pubkey " + pubkey)
         self.__listaClientes[nome] = uriCliente
         self.__listaKeys[nome] = pubkey

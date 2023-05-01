@@ -51,8 +51,10 @@ if __name__ == '__main__':
     uriMercadoLeiloes = servidorNomes.lookup("Mercado de Leiloes")
     servidorMercadoLeiloes = Pyro5.api.Proxy(uriMercadoLeiloes)
     servidorMercadoLeiloes.registrarCliente(
-        clienteInstancia.nome, clienteInstancia.uriCliente, clienteInstancia.key.publickey().export_key())
-    while (1):
+                                           clienteInstancia.nome, 
+                                           clienteInstancia.uriCliente, 
+                                           clienteInstancia.key.publickey().export_key().decode('utf-8'))
+    while (1): 
         print("As opções do servidor são:\n")
         print("1 - Criar leilão\n")
         print("2 - Listar leilões\n")

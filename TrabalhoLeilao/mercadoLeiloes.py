@@ -63,7 +63,7 @@ class mercadoLeiloes(object):
         mensagem = nome + " deu lance de " + valorLance + " em " + nomeProduto
         for leilao in self.__listaLeiloes.keys():
             if (leilao == nomeProduto):
-                if valorLance > self.__listaLeiloes[leilao].valorAtual:
+                if (valorLance > self.__listaLeiloes[leilao].valorAtual and self.__listaLeiloes[leilao].acabou == 0):
                     self.__listaLeiloes[leilao].valorAtual = valorLance
                     self.__listaLeiloes[leilao].nomeComprador = nome
                     self.__listaLeiloes[leilao].listaInteressados[nome] = uri

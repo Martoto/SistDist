@@ -4,6 +4,7 @@ import Pyro5.server
 from leiloes import leilao
 from datetime import datetime
 import time
+import base64
 from apscheduler.schedulers.background import BackgroundScheduler
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
@@ -32,7 +33,8 @@ class mercadoLeiloes(object):
 
     def decrypt(self, msg, key, signature):
         hash = SHA256.new(msg.encode('utf-8'))
-        print(key)
+        signature = base64.b64decode(signature['data'])
+        print(msg)
         imKey = RSA.import_key(key)
         try:
             pkcs1_15.new(imKey).verify(hash, signature)
@@ -104,6 +106,6 @@ class mercadoLeiloes(object):
         print("Tentou Registrar Cliente " + nome )
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
-        print("Registrou cliente" + nome + " com pubkey " + pubkey)
+        print("Registrou cliente" + nome)
         self.__listaClientes[nome] = uriCliente
         self.__listaKeys[nome] = pubkey

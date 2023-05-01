@@ -28,6 +28,8 @@ class cliente():
     def encrypt(self, msg):
         hash = SHA256.new(msg.encode('utf-8'))
         signature = pkcs1_15.new(self.key).sign(hash)
+        print("assinatura cliente: ")
+        print(signature)
         return signature  
 
 

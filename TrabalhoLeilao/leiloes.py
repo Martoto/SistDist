@@ -21,6 +21,7 @@ class leilao:
         self.nomeComprador = None
         self.valorAtual = precoBase
         self.uriComitante = uri
+        self.mandouMensagemTermino = 0
 
     def getNomeProduto(self):
         return self.nomeProduto

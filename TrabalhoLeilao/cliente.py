@@ -19,8 +19,9 @@ class cliente():
     def pedeCriar(self, uriCliente):
         self.uriCliente = uriCliente
 
+    def inicializaDaemon(self, daemon):
+        daemon.requestLoop()
 
-class CallbackHandler(object):
     @Pyro5.api.expose
     @Pyro5.api.callback
     def notificacao(self, acontecimento):
@@ -32,8 +33,9 @@ if __name__ == '__main__':
     daemon = Pyro5.api.Daemon()
     uriCliente = daemon.register(clienteInstancia)
     clienteInstancia.pedeCriar(uriCliente)
-    callback = CallbackHandler()
-    daemon.register(callback)
+    daemonThread = threading.Thread(
+        target=clienteInstancia.inicializaDaemon, args=(daemon,), daemon=True)
+    daemonThread.start()
 
     servidorNomes = Pyro5.api.locate_ns()
     uriMercadoLeiloes = servidorNomes.lookup("Mercado de Leiloes")

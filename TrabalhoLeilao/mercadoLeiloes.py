@@ -73,8 +73,11 @@ class mercadoLeiloes(object):
                         user.notificacao(mensagem)
                     return 1
                 else:
-                    return 0
-        return 2
+                    if self.__listaLeiloes[leilao].acabou == 0:
+                        return 0
+                    else:
+                        return 2
+            return 3
         # só retornar para a pessoa
 
     @Pyro5.server.expose

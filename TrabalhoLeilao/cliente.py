@@ -70,4 +70,6 @@ if __name__ == '__main__':
             if (resultadoLance == 0):
                 print("Lance Negado")
             if (resultadoLance == 2):
-                print("Não existe Leilao com esse nome")
+                print("Leilão já acabou")
+            if (resultadoLance == 3):
+                print("Leilão com essa grafia não existe")

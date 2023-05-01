@@ -32,6 +32,8 @@ class mercadoLeiloes(object):
 
     def decrypt(self, msg, key, signature):
         hash = SHA256.new(msg.encode('utf-8'))
+        key = RSA.import_key(key.encode('utf-8'))
+        print("decrypting " + msg)
         try:
             pkcs1_15.new(key).verify(hash, signature)
             return True
@@ -47,10 +49,13 @@ class mercadoLeiloes(object):
                     uri, 
                     nome,
                     signature):
-        if not self.decrypt(uri, self.__listaKeys[nome], signature):
+        if not self.decrypt(nome, self.__listaKeys[nome], signature):
             raise ValueError('Assinatura inválida')
         if nomeProduto in self.__listaLeiloes:
             raise ValueError('Já existe leilão com mesmo nome')
+                
+        print("Cliente " + nome + " tentou criar leilão de " + nomeProduto)
+
         self.__listaLeiloes[nomeProduto] = leilao(
             nomeProduto, descriçãoProduto, preçoBase, limiteTempo, uri)
         self.__listaLeiloes[nomeProduto].listaInteressados[nome] = uri
@@ -74,10 +79,12 @@ class mercadoLeiloes(object):
                  uri, 
                  nome,
                  signature):
-        
-        if not self.decrypt(uri, self.__listaKeys[nome], signature):
+                
+        if not self.decrypt(nome, self.__listaKeys[nome], signature):
             raise ValueError('Assinatura inválida')
-        
+        else:
+            print("Assinatura válida")       
+
         print("Cliente " + nome + " tentou dar lance de " +
               valorLance + " em " + nomeProduto)
         for leilao in self.__listaLeiloes.keys():
@@ -94,9 +101,10 @@ class mercadoLeiloes(object):
 
     @Pyro5.server.expose
     def registrarCliente(self, nome, uriCliente, pubkey):
-        print("Tentou Registrar Cliente " + nome)
+        print("Tentou Registrar Cliente " + nome )
+        print(pubkey)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
-        print("Registrou cliente" + nome + " com uri " + uriCliente + " e pubkey " + pubkey)
+        print("Registrou cliente" + nome)
         self.__listaClientes[nome] = uriCliente
         self.__listaKeys[nome] = pubkey

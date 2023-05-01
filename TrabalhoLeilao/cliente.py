@@ -51,7 +51,7 @@ if __name__ == '__main__':
     uriMercadoLeiloes = servidorNomes.lookup("Mercado de Leiloes")
     servidorMercadoLeiloes = Pyro5.api.Proxy(uriMercadoLeiloes)
     servidorMercadoLeiloes.registrarCliente(
-        clienteInstancia.nome, clienteInstancia.uriCliente, clienteInstancia.key.publickey().export_key().decode('utf-8'))
+        clienteInstancia.nome, clienteInstancia.uriCliente, clienteInstancia.key.publickey().export_key())
     while (1):
         print("As opções do servidor são:\n")
         print("1 - Criar leilão\n")
@@ -77,14 +77,14 @@ if __name__ == '__main__':
                                             limiteTempo, 
                                             clienteInstancia.uriCliente, 
                                             clienteInstancia.nome,
-                                            clienteInstancia.encrypt(clienteInstancia.uriCliente))
+                                            clienteInstancia.encrypt(clienteInstancia.nome))
             elif (event == 'Voltar'):
                 continue
 
         elif opcao == 'Listar':
             lista = servidorMercadoLeiloes.listarLeiloes()
             #abrir tela lista
-            tela = telaListar(lista)
+            tela = telaListar()
             event, values = tela.read(close=True)
             tela['-LIST-'].update(lista)
             for name in lista:
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                                                             nomeProduto,
                                                             clienteInstancia.uriCliente, 
                                                             clienteInstancia.nome,
-                                                            clienteInstancia.encrypt(clienteInstancia.uriCliente))
+                                                            clienteInstancia.encrypt(clienteInstancia.nome))
             if resultadoLance == 1:
                 print("Lance Aceito")
             elif resultadoLance == 0:

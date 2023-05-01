@@ -97,6 +97,6 @@ class mercadoLeiloes(object):
         print("Tentou Registrar Cliente " + nome)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
-        print("Registrou cliente" + nome)
+        print("Registrou cliente" + nome + " com uri " + uriCliente + " e pubkey " + pubkey)
         self.__listaClientes[nome] = uriCliente
         self.__listaKeys[nome] = pubkey

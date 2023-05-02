@@ -25,6 +25,10 @@ class cliente():
     def pedeCriar(self, uriCliente):
         self.uriCliente = uriCliente
 
+
+    def inicializaDaemon(self, daemon):
+        daemon.requestLoop()
+
     def encrypt(self, msg):
         hash = SHA256.new(msg.encode('utf-8'))
         signature = pkcs1_15.new(self.key).sign(hash)
@@ -34,7 +38,7 @@ class cliente():
 
 
 
-class CallbackHandler(object):
+
     @Pyro5.api.expose
     @Pyro5.api.callback
     def notificacao(self, acontecimento):
@@ -46,8 +50,9 @@ if __name__ == '__main__':
     daemon = Pyro5.api.Daemon()
     uriCliente = daemon.register(clienteInstancia)
     clienteInstancia.pedeCriar(uriCliente)
-    callback = CallbackHandler()
-    daemon.register(callback)
+    daemonThread = threading.Thread(
+        target=clienteInstancia.inicializaDaemon, args=(daemon,), daemon=True)
+    daemonThread.start()
 
     servidorNomes = Pyro5.api.locate_ns()
     uriMercadoLeiloes = servidorNomes.lookup("Mercado de Leiloes")
@@ -105,6 +110,9 @@ if __name__ == '__main__':
                 print("Lance Aceito")
             elif resultadoLance == 0:
                 print("Lance Negado")
-            elif resultadoLance == 2:
-                print("Não existe Leilao com esse nome")
+
+            if (resultadoLance == 2):
+                print("Leilão já acabou")
+            if (resultadoLance == 3):
+                print("Leilão com essa grafia não existe")
 

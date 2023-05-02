@@ -18,9 +18,10 @@ class leilao:
         self.descriçãoProduto = descriçãoProduto
         self.preçoBase = precoBase
         self.limiteTempo = limiteTempo
-        self.nomeComprador = None
+        self.nomeComprador = "Ninguém"
         self.valorAtual = precoBase
         self.uriComitante = uri
+        self.mandouMensagemTermino = 0
 
     def getNomeProduto(self):
         return self.nomeProduto

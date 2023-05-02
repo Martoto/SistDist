@@ -48,19 +48,19 @@ class mercadoLeiloes(object):
             return False
 
     @Pyro5.server.expose
-    def criarLeilao(self, 
-                    nomeProduto, 
-                    descriçãoProduto, 
-                    preçoBase, 
-                    limiteTempo, 
-                    uri, 
+    def criarLeilao(self,
+                    nomeProduto,
+                    descriçãoProduto,
+                    preçoBase,
+                    limiteTempo,
+                    uri,
                     nome,
                     signature):
         if not self.decrypt(nome, self.__listaKeys[nome], signature):
             raise ValueError('Assinatura inválida')
         if nomeProduto in self.__listaLeiloes:
             raise ValueError('Já existe leilão com mesmo nome')
-                
+
         print("Cliente " + nome + " tentou criar leilão de " + nomeProduto)
 
         self.__listaLeiloes[nomeProduto] = leilao(
@@ -84,17 +84,17 @@ class mercadoLeiloes(object):
         return listaLeiloesRetorno
 
     @Pyro5.server.expose
-    def darLance(self, 
-                 valorLance, 
-                 nomeProduto, 
-                 uri, 
+    def darLance(self,
+                 valorLance,
+                 nomeProduto,
+                 uri,
                  nome,
                  signature):
-                
+
         if not self.decrypt(nome, self.__listaKeys[nome], signature):
             raise ValueError('Assinatura inválida')
         else:
-            print("Assinatura válida")       
+            print("Assinatura válida")
 
         print("Cliente " + nome + " tentou dar lance de " +
               valorLance + " em " + nomeProduto)
@@ -115,12 +115,12 @@ class mercadoLeiloes(object):
                         return 0
                     else:
                         return 2
-            return 3
+        return 3
         # só retornar para a pessoa
 
     @Pyro5.server.expose
     def registrarCliente(self, nome, uriCliente, pubkey):
-        print("Tentou Registrar Cliente " + nome )
+        print("Tentou Registrar Cliente " + nome)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
         print("Registrou cliente" + nome)
@@ -129,4 +129,3 @@ class mercadoLeiloes(object):
         user = Pyro5.api.Proxy(self.__listaClientes[nome])
         user.notificacao(mensagem)
         self.__listaKeys[nome] = pubkey
-

@@ -40,7 +40,6 @@ class mercadoLeiloes(object):
     def decrypt(self, msg, key, signature):
         hash = SHA256.new(msg.encode('utf-8'))
         signature = base64.b64decode(signature['data'])
-        print(msg)
         imKey = RSA.import_key(key)
         try:
             pkcs1_15.new(imKey).verify(hash, signature)

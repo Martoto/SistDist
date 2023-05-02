@@ -16,8 +16,7 @@ class cliente():
 
     def __init__(self):
         #abrir tela login
-        event, values = telaLogin().read(close=True)
-        self.nome = values['usuario']
+        self.nome = input("Nome usuário")
         key = RSA.generate(2048)
         self.key = key
         print(self.nome)
@@ -32,8 +31,6 @@ class cliente():
     def encrypt(self, msg):
         hash = SHA256.new(msg.encode('utf-8'))
         signature = pkcs1_15.new(self.key).sign(hash)
-        print("assinatura cliente: ")
-        print(signature)
         return signature  
 
 
@@ -62,43 +59,39 @@ if __name__ == '__main__':
                                            clienteInstancia.uriCliente, 
                                            clienteInstancia.key.publickey().export_key().decode('utf-8'))
     while (1): 
+        input("Press enter to continue")
+        print ("*****************************************************************\n")
+        print("Bem vindo ao Mercado de Leilões, " + clienteInstancia.nome + "\n")
         print("As opções do servidor são:\n")
         print("1 - Criar leilão\n")
         print("2 - Listar leilões\n")
         print("3 - Dar lance em um leilão\n")
-        #abrir tela menu
-        event, values = telaMenu().read(close=True)
+        print ("*****************************************************************\n")
 
-        opcao = event
-        if event == sg.WINDOW_CLOSED or event == 'Quit':
-            break
-        elif opcao == 'Cadastrar':
-
-            event, values = telaCadastrar().read(close=True)
-            if (event == 'Cadastrar'):
-                nomeProduto = values['nome']
-                descriçãoProduto = values['descricao']
-                preçoBase = values['preco']
-                limiteTempo = values['tempo']
-                servidorMercadoLeiloes.criarLeilao(nomeProduto, 
+        opcao = input()
+        if opcao == '1':
+            nomeProduto = input("Qual o nome do produto?")
+            descriçãoProduto = input("Qual a descrição do produto?")
+            preçoBase = input("Qual o preço mínimo ?")
+            limiteTempo = int(input("Em quantos segundos deve expirar?"))
+            servidorMercadoLeiloes.criarLeilao(nomeProduto, 
                                             descriçãoProduto, 
                                             preçoBase, 
                                             limiteTempo, 
                                             clienteInstancia.uriCliente, 
                                             clienteInstancia.nome,
                                             clienteInstancia.encrypt(clienteInstancia.nome))
-            elif (event == 'Voltar'):
-                continue
 
-        elif opcao == 'Listar':
+        elif opcao == '2':
             lista = servidorMercadoLeiloes.listarLeiloes()
-            #abrir tela lista
-            tela = telaListar()
-            event, values = tela.read(close=True)
-            tela['-LIST-'].update(lista)
+            print("Numero de leilões: %d" % (len(lista)))
+            print("Leilões disponíveis:")
+            print("----------------------")
             for name in lista:
                 print("  %s " % (name))
-        elif opcao == 'Lance':
+                print("----------------------")
+
+        elif opcao == '3':
             nomeProduto = input("Qual o nome do produto em leilão?")
             valorLance = input("Qual o valor do seu lance?")
             resultadoLance = servidorMercadoLeiloes.darLance(valorLance,
@@ -110,7 +103,6 @@ if __name__ == '__main__':
                 print("Lance Aceito")
             elif resultadoLance == 0:
                 print("Lance Negado")
-
             if (resultadoLance == 2):
                 print("Leilão já acabou")
             if (resultadoLance == 3):

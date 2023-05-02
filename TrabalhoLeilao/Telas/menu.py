@@ -1,12 +1,25 @@
 import PySimpleGUI as sg
 
 # Layout
+def telaLogin():
+    sg.theme('DarkAmber')
+    layout = [
+        [sg.Text('Login', size=(10, 1), justification='center', font=("Helvetica", 25))],
+        [sg.Text('Usuário', size=(10, 1)), sg.Input(size=(20, 1), key='usuario')],
+        [sg.Button('Entrar', size=(20, 2))],
+        [sg.Button('Sair', size=(20, 2))]
+    ]
+    # Janela
+    return sg.Window('Login', layout=layout, finalize=True)
+
+
 def telaMenu():
     sg.theme('DarkAmber')
     layout = [
         [sg.Text('Menu', size=(10, 1), justification='center', font=("Helvetica", 25))],
         [sg.Button('Cadastrar', size=(20, 2))],
         [sg.Button('Listar', size=(20, 2))],
+        [sg.Button('Lance', size=(20, 2))],
         [sg.Button('Sair', size=(20, 2))]
     ]
     # Janela
@@ -19,7 +32,7 @@ def telaCadastrar():
         [sg.Text('Nome', size=(10, 1)), sg.Input(size=(20, 1), key='nome')],
         [sg.Text('Descrição', size=(10, 1)), sg.Input(size=(20, 1), key='descricao')],
         [sg.Text('Preço', size=(10, 1)), sg.Input(size=(20, 1), key='preco')],
-        [sg.Text('Tempo', size=(10, 1)), sg.Input(size=(20, 1), key='tempo')],
+        [sg.Text('Tempo (Segundos)', size=(10, 1)), sg.Input(size=(20, 1), key='tempo')],
         [sg.Button('Cadastrar', size=(20, 2))],
         [sg.Button('Voltar', size=(20, 2))]
     ]
@@ -29,8 +42,7 @@ def telaCadastrar():
 def telaListar():
     sg.theme('DarkAmber')
     layout = [
-        [sg.Text('Listar', size=(10, 1), justification='center', font=("Helvetica", 25))],
-        [sg.Button('Listar', size=(20, 2))],
+        [sg.Text('Listar', size=(10, 1), justification='center', font=("Helvetica", 25), key='-LIST-')],
         [sg.Button('Voltar', size=(20, 2))]
     ]
     # Janela

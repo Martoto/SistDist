@@ -15,7 +15,6 @@ from Crypto.Signature import pkcs1_15
 
 class mercadoLeiloes(object):
     __listaClientes = {}
-    __listaKeys = {}
     __listaLeiloes = {}
 
     def __init__(self):
@@ -25,8 +24,8 @@ class mercadoLeiloes(object):
     def atualizarLista(self):
         for leilao in self.__listaLeiloes.keys():
             self.__listaLeiloes[leilao].atualizarTempo()
-            if (self.__listaLeiloes[leilao].acabou =
-                = 1 and self.__listaLeiloes[leilao].mandouMensagemTermino == 0):
+            if (self.__listaLeiloes[leilao].acabou == 1 and 
+                self.__listaLeiloes[leilao].mandouMensagemTermino == 0):
                 mensagem = "O leilão de " + leilao + " acabou. O ganhador foi " + \
                     self.__listaLeiloes[leilao].nomeComprador + \
                     " pelo preço de " + self.__listaLeiloes[leilao].valorAtual
@@ -36,29 +35,14 @@ class mercadoLeiloes(object):
                     user.notificacao(mensagem)
                 self.__listaLeiloes[leilao].mandouMensagemTermino = 1
 
-# nomeProduto, descriçãoProduto, preçoBase, limiteTempo, limiteDia, clienteInstancia.uriCliente, clienteInstancia.nome
 
-    def decrypt(self, msg, key, signature):
-        hash = SHA256.new(msg.encode('utf-8'))
-        signature = base64.b64decode(signature['data'])
-        imKey = RSA.import_key(key)
-        try:
-            pkcs1_15.new(imKey).verify(hash, signature)
-            return True
-        except (ValueError, TypeError):
-            return False
-
-    @Pyro5.server.expose
     def criarLeilao(self,
                     nomeProduto,
                     descriçãoProduto,
                     preçoBase,
                     limiteTempo,
                     uri,
-                    nome,
-                    signature):
-        if not self.decrypt(nome, self.__listaKeys[nome], signature):
-            raise ValueError('Assinatura inválida')
+                    nome):
         if nomeProduto in self.__listaLeiloes:
             raise ValueError('Já existe leilão com mesmo nome')
 
@@ -72,7 +56,6 @@ class mercadoLeiloes(object):
             user = Pyro5.api.Proxy(self.__listaClientes[nomeInteressado])
             user.notificacao(mensagem)
 
-    @Pyro5.server.expose
     def listarLeiloes(self):
         listaLeiloesRetorno = {}
         for leilao in self.__listaLeiloes:
@@ -89,13 +72,8 @@ class mercadoLeiloes(object):
                  valorLance,
                  nomeProduto,
                  uri,
-                 nome,
-                 signature):
-
-        if not self.decrypt(nome, self.__listaKeys[nome], signature):
-            raise ValueError('Assinatura inválida')
-        else:
-            print("Assinatura válida")
+                 nome
+                 ):
 
         print("Cliente " + nome + " tentou dar lance de " +
               valorLance + " em " + nomeProduto)
@@ -119,8 +97,7 @@ class mercadoLeiloes(object):
         return 3
         # só retornar para a pessoa
 
-    @Pyro5.server.expose
-    def registrarCliente(self, nome, uriCliente, pubkey):
+    def registrarCliente(self, nome, uriCliente):
         print("Tentou Registrar Cliente " + nome)
         if nome in self.__listaClientes:
             raise ValueError('Já cliente com esse nome')
@@ -129,4 +106,3 @@ class mercadoLeiloes(object):
         self.__listaClientes[nome] = uriCliente
         user = Pyro5.api.Proxy(self.__listaClientes[nome])
         user.notificacao(mensagem)
-        self.__listaKeys[nome] = pubkey

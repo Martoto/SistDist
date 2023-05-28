@@ -1,31 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Login from './Login';
+
 import axios from 'axios'
 
 function App() {
   const [getMessage, setGetMessage] = useState({})
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
+  var source = new EventSource("{{ url_for('sse.stream') }}");
 
-  }, [])
+    source.addEventListener('publish', function(event) {
+        var data = JSON.parse(event.data);
+        console.log("The server says " + data.message);
+    }, false);
+    source.addEventListener('error', function(event) {
+        console.log("Error"+ event)
+        alert("Failed to connect to event stream. Is Redis running?");
+    }, false);
+
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Tutorial</p>
-        <div>{getMessage.status === 200 ? 
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>LOADING</h3>}</div>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path="/" component={NameForm} />
+      <Route path="/:id" component={UserPage} />
+    </Switch>
   );
 }
 

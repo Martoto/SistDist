@@ -1,20 +1,31 @@
 from datetime import datetime
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask, render_template, request, flash, redirect, url_for, Response
+from flask import Flask, render_template, request, flash, redirect, url_for, Response, send_from_directory
+from flask_restful import Api, Resource, reqparse
+from flask_sse import sse
+from apscheduler.schedulers.background import BackgroundScheduler
 from mercadoLeiloes import mercadoLeiloes
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user, user_accessed
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, RadioField
 from wtforms.validators import InputRequired, Length, ValidationError
+from api.LeilaoApiHandler import LeilaoApiHandler
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+app.config["REDIS_URL"] = "redis://localhost"
+api = Api(app)
+
+@app.route("/", defaults={'path':''})
+def serve(path):
+    return send_from_directory(app.static_folder,'index.html')
 
 @app.get('/login')
 def login_get():
-    return LoginForm()
+    return  
 
+api.add_resource(LeilaoApiHandler, '/flask/leilao')
 
 class LoginForm(FlaskForm):
     User_Acc = StringField(validators=[InputRequired(), Length(min=2, max=255)], render_kw={"placeholder" : "Usuario", "class": "form-control form-control-user"})

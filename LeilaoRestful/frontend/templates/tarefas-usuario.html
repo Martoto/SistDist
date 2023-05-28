@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Robinho</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{url_for('static', filename='css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{url_for('static', filename='css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url_for('dashboard')}}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Robinho</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('dashboard')}}">
+                    <i class="fas fa-fw fa-video"></i>
+                    <span>Transmissão</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Tarefas -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('tarefa_aluno')}}">
+                    <i class="fas fa-fw fa-tasks"></i>
+                    <span>Tarefas</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle"
+                                     src="{{url_for('static', filename='img/undraw_profile.svg')}}">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="mb-2 text-gray-800">Tarefas</h1>
+                    <br />
+
+                    <h3 class="mb-2">Nível Iniciante</h3>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa1" class="d-block card-header py-3" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa1">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 1 - Piscar LED</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseTarefa1">
+                            <div class="card-body">
+                                <p>Os LEDs do robô deverão ser acesos em qualquer cor.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=2'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa2" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa2">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 2 - Movimento do robô</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa2">
+                            <div class="card-body">
+                                <p>O robô deverá realizar movimentos de tal maneira que seja formado um quadrado. Ao fim da tarefa, o robô deverá estar na posição inicial.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=2'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa3" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 3 - Percorrer trajeto</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa3">
+                            <div class="card-body">
+                                <p>O robô deverá ir até a posição inicial do trajeto, e então percorrer ele até o destino final. O trajeto pode ser definido de qualquer forma, contando que respeite as posições abaixo.</p>
+                                <p>Posição inicial: (10, 4)</p>
+                                <p>Posição final: (5, 1)</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=3'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa4" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa4">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 4 - Ler sensor de cor</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa4">
+                            <div class="card-body">
+                                <p>O robô deverá identificar a cor do chão através do sensor de cor.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=4'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-2">Nível Intermediário</h3>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa1Intermediario" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa1Intermediario">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 1 - Identificar cor</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa1Intermediario">
+                            <div class="card-body">
+                                <p>O robô deverá encontrar o quadrado vermelho no chão e piscar os LEDs na mesma cor.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=5'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa2Intermediario" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa2Intermediario">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 2 - Botões</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa2Intermediario">
+                            <div class="card-body">
+                                <p>O robô deverá pressionar os botões da arena na seguinte sequência: 3-2-4-1</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=6'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa3Intermediario" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa3Intermediario">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 3 - Encontrar a caixa</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa3Intermediario">
+                            <div class="card-body">
+                                <p>O robô deverá encontrar e pegar a caixa azul.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=7'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-2">Nível Avançado</h3>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa1Avancado" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa1Avancado">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 1 - Labirinto</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa1Avancado">
+                            <div class="card-body">
+                                <p>O robô deverá entrar no labirinto com o objetivo de encontrar a região com paredes verdes. Assim que encontrar, ele deverá piscar os LEDs na mesma cor.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=8'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa2Avancado" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa2Avancado">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 2 - Levar a caixa no lugar</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa2Avancado">
+                            <div class="card-body">
+                                <p>O robô deverá encontrar o bloco da cor amarela, piscar os LEDs indicando a cor encontrada e levar o bloco até a posição de mesma cor.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=9'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseTarefa3Avancado" class="d-block card-header py-3 collapsed" data-toggle="collapse"
+                           role="button" aria-expanded="true" aria-controls="collapseTarefa3Avancado">
+                            <h6 class="m-0 font-weight-bold text-primary">Tarefa 3 - Genius</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="collapseTarefa3Avancado">
+                            <div class="card-body">
+                                <p>O robô deverá observar a sequência de cor mostrada pelo LED da arena e, então, apertar os botões correspondentes na mesma sequência.</p>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <a href="{{url_for('tarefa_aluno_bloco') + '?id=10'}}" class="btn btn-primary btn-icon-split" style="margin-bottom:10px;">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-pen"></i>
+                                            </span>
+                                            <span class="text">Abrir tarefa</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Robinho 2022</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{url_for('logout')}}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{url_for('static', filename='js/sb-admin-2.min.js')}}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{url_for('static', filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{url_for('static', filename='js/demo/datatables-demo.js')}}"></script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#tarefas').DataTable({
+                columnDefs: [
+                    {
+                        targets: -4,
+                        data: null,
+                        defaultContent: '<a href="#" class="btn btn-sm"><i class="fas fa-eye"></i>',
+                    },
+                ],
+            });
+        });
+    </script>
+
+</body>
+
+</html>

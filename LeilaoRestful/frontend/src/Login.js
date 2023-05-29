@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './Login.css';
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:5000/login', {
+    return fetch('http://localhost:5000/flask/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

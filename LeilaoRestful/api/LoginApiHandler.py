@@ -27,10 +27,10 @@ class LoginApiHandler(Resource):
 
     if ret_msg:
       message = "Your Message Requested: {}".format(ret_msg)
-      
+
     else:
       message = "No Msg"
     
-    final_ret = {"status": "Success", "message": message}
+    final_ret = {"status": "Success","message": message, "token": message}
 
     return final_ret

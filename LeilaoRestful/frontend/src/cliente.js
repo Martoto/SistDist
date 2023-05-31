@@ -12,7 +12,7 @@ const readline = require('readline');
 const { parse } = require('node:path');
 var userToken = "";
 //lista dos leiloes que o usuario esta inscrito
-const assinaturasLeiloes = [];
+const listeners = [];
 
 
 const rl = readline.createInterface({
@@ -54,10 +54,13 @@ function darLance() {
                     console.log(listaLeiloes);
                     console.log("===========================");
                     //inscreve o usuario no leilao
-                    eventSource.addEventListener(nomeProduto, function(event) {
-                        var data = JSON.parse(event.data);
-                        console.log("NOTIFICACAO PRODUTO " + data.message);
-                    }, false);
+                    if (!listeners.includes(nomeProduto)) {
+                        eventSource.addEventListener(nomeProduto, function(event) {
+                            var data = JSON.parse(event.data);
+                            console.log("NOTIFICACAO PRODUTO " + data.message);
+                        }, false);
+                        listeners.push(nomeProduto);
+                    }
                     // Retornar ao menu principal
                     iniciarCliente();
                 })
@@ -102,11 +105,14 @@ function criarLeilao() {
                                 console.log("===== Lista de Leilões Atualizada =====");
                                 console.log(listaLeiloes);
                                 console.log("===========================");
-                                //inscreve o usuario no leilao
+                            //inscreve o usuario no leilao
+                            if (!listeners.includes(nomeProduto)) {
                                 eventSource.addEventListener(nomeProduto, function(event) {
                                     var data = JSON.parse(event.data);
                                     console.log("NOTIFICACAO PRODUTO " + data.message);
                                 }, false);
+                                listeners.push(nomeProduto);
+                            }
                                 resolve(listaLeiloes);
                             })
                             .catch(error => {

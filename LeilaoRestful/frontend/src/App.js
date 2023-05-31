@@ -16,12 +16,12 @@ function App() {
   
   return (
     <div className="wrapper">
-      <h1>Application</h1>
+      <h1>Leilao de {token}.valueOf()</h1>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<CriarLeilao />} />
-            <Route path="darlance" element={<DarLance />} />
+            <Route path="darlance" element={<DarLance/>} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>

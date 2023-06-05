@@ -109,7 +109,11 @@ def darLance():
     if (lance['valor'] > leilaoLance['valorAtual']):
         leilaoLance['nomeComprador'] = lance['nomeComprador']
         leilaoLance['valorAtual'] = lance['valor']
-    mensagem = "Novo lance de " + \
+        mensagem = "Novo lance de " + \
+        str(leilaoLance['valorAtual']) + "reais em " + \
+        str(leilaoLance['nomeProduto'])
+    else:
+        mensagem = "Tentativa fracassada de lance" + \
         str(leilaoLance['valorAtual']) + "reais em " + \
         str(leilaoLance['nomeProduto'])
     publish_sse_message(mensagem, channel=str(leilaoLance['nomeProduto']))
